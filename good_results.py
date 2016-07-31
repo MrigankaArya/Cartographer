@@ -1,3 +1,4 @@
+from __future__ import division
 import numpy
 import cv2
 from PIL import Image
@@ -26,7 +27,37 @@ def good_corners():
         coordinates.append(point)
         cv2.circle(img,(x,y),3,255,-1)
         
-    #find the smallest x value for the 1st step of the algorithm
+    smallest = find_smallest(coordinates)
+    #make a duplicate list to keep track of which coordinates
+    #have already been calculated for a gradient check
+    #if it's been part of a gradient check and the gradient coordinate list
+    #is a good size, then the coordinates are removed from the list - they
+    #don't belong in there anymore
+
+    checklist = list(coordinates)
+    #we dont want to check the gradient for something we're checking against
+    checklist.remove(smallest)
+
+    #hashmap functionality to hold the points sharing the same list of gradients
+    #wrt the smallest point
+    gradient_map = {}
+    list_points = []
+
+    gradient = 0
+    for p in checklist:
+        if p.x != smallest.x:
+            gradient = round((p.y - smallest.y)/(p.x - smallest.x),2)
+            
+    
+
+    
+    
+    
+    plt.imshow(img),plt.show()
+
+
+ #find the smallest x value for the 1st step of the algorithm
+def find_smallest(coordinates):
     smallest = coordinates[0]
     place = 0
     for point in range (len(coordinates)):
@@ -34,15 +65,7 @@ def good_corners():
         if smallest.x > curr_x:
             place = point
             smallest = coordinates[point]
-    
-    same_gradient_list = []
-    print smallest.x
-
-    
-    
-    plt.imshow(img),plt.show()
-
-
-    
+    return smallest
+ 
 
 good_corners()
