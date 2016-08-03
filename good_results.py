@@ -45,13 +45,15 @@ def good_corners():
 
     gradient = 0
     for p in checklist:
-        if p.x != smallest.x:
-            gradient = round((p.y - smallest.y)/(p.x - smallest.x),2)
-            
-    
+        if p.x == smallest.x:
+            continue
 
-    
-    
+        gradient = round((p.y - smallest.y)/(p.x - smallest.x),2)
+
+        if gradient in gradient_map:
+            gradient_map[gradient].append(p)
+        else:
+            gradient_map[gradient] = [p]
     
     plt.imshow(img),plt.show()
 
